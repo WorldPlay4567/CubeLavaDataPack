@@ -1,0 +1,2 @@
+execute if score $timeSecond __variable__ matches -9999999..0 run function lava_rising:__private__/if_else/0
+execute if score $timeSecond __variable__ matches 1.. run scoreboard players remove $timeSecond __variable__ 1

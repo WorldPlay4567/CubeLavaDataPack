@@ -1,0 +1,86 @@
+
+
+class gui {
+    function render() {
+                tellraw @a {"text":"\n\n\n\n\n\n\n\n\n\n\n","color":"red"};
+        tellraw @a ["",{"text":"\u041a\u043e\u043c\u0430\u043d\u0434\u044b: "},{"text":"[\u041a\u0440\u0430\u0441\u043d\u044b\u0435]","color":"red","clickEvent":{"action":"run_command","value":"/function lava_rising:gui/redbutton"},"hoverEvent":{"action":"show_text","contents":"\u0417\u0430\u0439\u0442\u0438"}},{"text":" "},{"text":"[\u0421\u0438\u043d\u0438\u0435]","color":"blue","clickEvent":{"action":"run_command","value":"/function lava_rising:gui/bluebutton"},"hoverEvent":{"action":"show_text","contents":"\u0417\u0430\u0439\u0442\u0438"}},{"text":" "},{"text":"[\u0417\u0435\u043b\u0435\u043d\u044b\u0435]","color":"green","clickEvent":{"action":"run_command","value":"/function lava_rising:gui/greenbutton"},"hoverEvent":{"action":"show_text","contents":"\u0417\u0430\u0439\u0442\u0438"}},{"text":" "},{"text":"[\u041f\u0443\u0440\u043f\u0443\u0440\u043d\u044b\u0435]","color":"light_purple","clickEvent":{"action":"run_command","value":"/function lava_rising:gui/purplebutton"},"hoverEvent":{"action":"show_text","contents":"\u0417\u0430\u0439\u0442\u0438"}}];
+        gui.playerRender();
+        tag @a[tag=gui_render] remove gui_render;
+    }
+
+
+    function redButton() {
+        team join red;
+        gui.render();
+    }
+    function blueButton() {
+        team join blue;
+        gui.render();        
+    }
+    function greenButton() {
+        team join green;
+        gui.render();
+    }
+    function purpleButton() {
+        team join purple;
+        gui.render();
+    }
+
+    function playerRender() {
+        tellraw @a {"text":"","color":"red"};
+        tellraw @a {"text":"Команда красные:","color":"red"};
+
+        $tempPlayer = execute if entity @a[team=red];
+
+        for ($i=$tempPlayer; $i >= 1; $i--) {
+            tag @a[tag=!gui_render,limit=1,sort=random,team=red] add this; 
+            tellraw @a {"selector":"@a[team=red,limit=1,tag=!gui_render,tag=this]"};
+            tag @a[tag=this] add gui_render;
+            tag @a[tag=this] remove this;
+
+        }
+            tellraw @a {"text":"\n","color":"red"};
+        tellraw @a {"text":"Команда синие:","color":"blue"};
+
+        $tempPlayer = execute if entity @a[team=blue];
+
+        for ($i=$tempPlayer; $i >= 1; $i--) {
+            tag @a[tag=!gui_render,limit=1,sort=random,team=blue] add this; 
+            tellraw @a {"selector":"@a[team=blue,limit=1,tag=!gui_render,tag=this]"};
+            tag @a[tag=this] add gui_render;
+            tag @a[tag=this] remove this;
+
+        }
+
+                    tellraw @a {"text":"\n","color":"red"};
+        tellraw @a {"text":"Команда зеленые:","color":"green"};
+
+        $tempPlayer = execute if entity @a[team=green];
+
+        for ($i=$tempPlayer; $i >= 1; $i--) {
+            tag @a[tag=!gui_render,limit=1,sort=random,team=green] add this; 
+            tellraw @a {"selector":"@a[team=green,limit=1,tag=!gui_render,tag=this]"};
+            tag @a[tag=this] add gui_render;
+            tag @a[tag=this] remove this;
+
+        }
+
+                            tellraw @a {"text":"\n","color":"red"};
+        tellraw @a {"text":"Команда пурпурные:","color":"light_purple"};
+
+        $tempPlayer = execute if entity @a[team=purple];
+
+        for ($i=$tempPlayer; $i >= 1; $i--) {
+            tag @a[tag=!gui_render,limit=1,sort=random,team=purple] add this; 
+            tellraw @a {"selector":"@a[team=purple,limit=1,tag=!gui_render,tag=this]"};
+            tag @a[tag=this] add gui_render;
+            tag @a[tag=this] remove this;
+
+        }
+
+
+    }
+
+
+
+}

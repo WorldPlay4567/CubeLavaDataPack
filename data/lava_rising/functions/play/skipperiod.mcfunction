@@ -1,0 +1,1 @@
+scoreboard players add $gamePeriod __variable__ 1

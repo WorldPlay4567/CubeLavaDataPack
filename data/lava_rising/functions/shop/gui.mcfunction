@@ -1,0 +1,1 @@
+execute unless entity @s[nbt={Inventory:[{Slot:9b,id:"minecraft:villager_spawn_egg"}]}] run function lava_rising:__private__/anonymous/1

@@ -1,0 +1,1 @@
+$execute as @e[type=marker,tag=lava,x=-50,y=$(lavaMaxPos),z=-50,dx=120,dy=150,dz=50] at @s run kill @s

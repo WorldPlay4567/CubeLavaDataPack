@@ -1,0 +1,128 @@
+$gameStart;
+$gamePeriod;
+
+$timeMinute;
+$timeSecond;
+
+$only1 = false;
+$only2 = false;
+$only3 = false;
+$only4 = false;
+
+class play {
+    function main() {
+        this.stopLava();
+
+        if ($gamePeriod = 1) {
+            this.gamePeriodOne();
+        }
+
+        if ($gamePeriod = 2) {
+            this.gamePeriodTwo();
+        }
+
+        if ($gamePeriod = 3) {
+            this.gamePeriodThree();
+        }
+
+        this.spectator();
+    }
+
+    function stopLava() {
+        this.maxPos() with storage minecraft:temp;
+        function maxPos() {
+            $execute as @e[type=marker,tag=lava,x=-50,y=$(lavaMaxPos),z=-50, dx=120,dy=150,dz=50] at @s run kill @s;
+        }
+    }
+
+    function gamePeriodOne() {
+        execute run bossbar set time name ["",{"text":"Безопасный период: ","color":"green"},{"score":{"name":"$timeMinute","objective":"__variable__"},"color":"green"},{"text":" \u043c\u0438\u043d.","color":"green"},{"score":{"name":"$timeSecond","objective":"__variable__"},"color":"green"},{"text":" \u0441\u0435\u043a. ","color":"green"}];
+
+        if ($only1 = 0) {
+            $timeMinute = $firstTime;
+            $timeSecond = 1;
+
+            worldborder set 1000 20;
+            effect give @a minecraft:resistance 20 255 true;
+            $only1 = true;
+        }
+
+    }
+
+    function gamePeriodTwo() {
+         execute run bossbar set time name ["",{"text":"Лава будет через: ","color":"green"},{"score":{"name":"$timeMinute","objective":"__variable__"},"color":"green"},{"text":" \u043c\u0438\u043d.","color":"green"},{"score":{"name":"$timeSecond","objective":"__variable__"},"color":"green"},{"text":" \u0441\u0435\u043a. ","color":"green"}];
+
+        if ($only2 = 0) {
+            $timeMinute = $freeTime;
+            $timeSecond = 1;
+
+            $tempTime = $freeTime;
+            $tempTime *= 60;
+
+            execute store result storage minecraft:temp temp int 1 run $tempTime.get();
+            this.worldborder() with storage minecraft:temp;
+                function worldborder() {
+                    $worldborder set 100 $(temp);
+                }
+
+            $only2 = true;
+        }
+    }
+
+    function gamePeriodThree() {
+        execute run bossbar set time name ["",{"text":"Лава идёт","color":"red"}];
+
+        $lavaTick++;
+        execute as @e[type=marker,tag=lava,sort=random,limit=1] at @s run fill ~ ~ ~ ~49 ~ ~49 lava replace #aestd1:all;
+
+        $lavaSpeedTemp = $lavaSpeed;
+        $lavaSpeedTemp *= 20;
+        if ($lavaSpeedTemp <= $lavaTick) {
+            execute as @e[type=marker,tag=lava] at @s run tp ~ ~1 ~;
+            $lavaTick = 0;
+        }
+
+        if ($only3 == 0) { 
+            summon marker -49 -64 -49 {Tags:["lava"]};
+            summon marker 0 -64 -49 {Tags:["lava"]};
+            summon marker -49 -64 0 {Tags:["lava"]};
+            summon marker 0 -64 0 {Tags:["lava"]};
+
+            $only3 = true;
+        }
+    }
+
+    function gamePeriodFour () {
+        
+    }
+ 
+    function gameStart() {
+        timer.tick20();
+        $gamePeriod = 1;
+        worldborder set 1000 20;
+    }
+
+    function skipPeriod() {
+        $gamePeriod ++;
+    }
+
+    function spectator() {
+        if ($gamePeriod matches 3..90) {
+            gamemode spectator @s;
+        }
+    }
+    function respawnSpectator() {
+
+        execute store result storage minecraft:temp pos_x int 1 run data get entity @s LastDeathLocation.pos[0] ;
+        execute store result storage minecraft:temp pos_y int 1 run data get entity @s LastDeathLocation.pos[1] ;
+        execute store result storage minecraft:temp pos_z int 1 run data get entity @s LastDeathLocation.pos[2] ;
+
+        this.respawnSpectatorPos() with storage minecraft:temp;
+
+        function respawnSpectatorPos() {
+            $execute as @s at @s run tp $(pos_x) $(pos_y) $(pos_z);
+        }
+
+    }
+    
+}

@@ -1,0 +1,7 @@
+{
+    "namespace": "lava_rising",
+    "description": "By: WorldPlay4567",
+    "pack_format": "34",
+    "target": "main.jmc",
+    "output": "."
+}

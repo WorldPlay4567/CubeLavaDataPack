@@ -1,0 +1,1 @@
+execute if score $gamePeriod __variable__ matches 3..90 run gamemode spectator @s

@@ -1,0 +1,1 @@
+execute unless entity @a[distance=..5] run function lava_rising:__private__/if_else/7

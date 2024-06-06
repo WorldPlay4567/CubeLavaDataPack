@@ -1,0 +1,33 @@
+
+
+
+class timer {
+
+    function tick20() {
+    
+        if ($gamePeriod matches 1..2) {
+
+
+            if ($timeSecond matches -9999999..0) {
+                $timeMinute --;
+                $timeSecond = 60;
+                
+                if ($timeMinute = -1) {
+                    play.skipPeriod();
+                }
+            }
+
+
+            if ($timeSecond >= 1) {
+                $timeSecond --;
+            }
+
+        }
+
+        schedule 20t replace {
+            this.tick20();
+        }
+
+    }
+
+}

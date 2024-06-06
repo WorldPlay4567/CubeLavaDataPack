@@ -1,0 +1,1 @@
+$execute if entity @s at @s run tp $(pos_x) $(pos_y) $(pos_z)

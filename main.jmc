@@ -1,0 +1,119 @@
+import "scr/gui_team";
+import "scr/timer";
+import "scr/play";
+import "scr/shop";
+
+
+
+Player.firstJoin(firstJoin);
+Player.join(settings);
+Player.die(play.spectator, play.respawnSpectator);
+
+Trigger.add(team, ()=> {gui.render();});
+Trigger.add(settings, ()=> {settings();});
+Trigger.add(start, ()=> {play.gameStart();});
+Trigger.add(skip_period, ()=> {play.skipPeriod();});
+
+Team.add(red, "Red", {friendlyFire:false,color:red});
+Team.add(blue, "Blue", {friendlyFire:false,color:blue});
+Team.add(green, "Green", {friendlyFire:false,color:green});
+Team.add(purple, "Purple", {friendlyFire:false,color:light_purple});
+
+Bossbar.add(time, "Ожидание");
+Bossbar.setName(time, "Ожидание");
+
+if ($gamePeriod = 0) {
+    worldborder set 10 0;
+}
+
+
+update20tick();
+
+$firstTime;
+$freeTime;
+$lavaMaxPos;
+$lavaSpeed;
+
+$firstTimeOld;
+$freeTimeOld;
+$lavaMaxPosOld;
+$lavaSpeedOld;
+
+function __tick__() {
+    execute as @a at @s run shop.gui();
+    execute as @e[type=villager,tag=shop] at @s run shop.despawnVillager();
+    play.main();
+    lavaDetect();
+    play.main();
+    execute run bossbar set time players @a;
+}
+
+function update20tick() {
+
+        schedule 2t replace {
+            update20tick();
+        }
+
+        if ($firstTime != $firstTimeOld) {
+            settings();
+            $firstTimeOld = $firstTime;
+        }
+        if ($freeTime != $freeTimeOld) {
+            settings();
+            $freeTimeOld = $freeTime;
+        }
+        if ($lavaMaxPos != $lavaMaxPosOld) {
+            settings();
+            $lavaMaxPosOld = $lavaMaxPos;
+        }
+        if ($lavaSpeed != $lavaSpeedOld) {
+            settings();
+            $lavaSpeedOld = $lavaSpeed;
+        }
+}
+
+function resetAllSetting() {
+    $firstTime = 5;
+    $freeTime = 30;
+    $lavaMaxPos = 70;
+    $lavaSpeed = 1;
+
+    $firstTimeOld = 0;
+    $freeTimeOld = 0;
+    $lavaMaxPosOld = 0;
+    $lavaSpeedOld = 0;
+}
+
+function defaultSettings() {
+    worldborder set 20;
+}
+
+function settings() {
+    execute as @a run tellraw @s ["",{"text":"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n","clickEvent":{"action":"run_command","value":""}},{"text":"\u25c8 \u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501 \u25c6 \u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501 \u25c8","color":"#C8C8C8","clickEvent":{"action":"run_command","value":""}},{"text":"\n\n","clickEvent":{"action":"run_command","value":""}},{"text":"\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438:","color":"green","clickEvent":{"action":"run_command","value":""}},{"text":"\n\u0411\u0435\u0437\u043e\u043f\u0430\u0441\u043d\u044b\u0439 \u043f\u0435\u0440\u0438\u043e\u0434: ","clickEvent":{"action":"run_command","value":""}},{"score":{"name":"$firstTime","objective":"__variable__"},"clickEvent":{"action":"run_command","value":""}},{"text":" \u043c\u0438\u043d ","clickEvent":{"action":"run_command","value":""}},{"text":"[-]","clickEvent":{"action":"run_command","value":"/scoreboard players remove $firstTime __variable__ 1"},"hoverEvent":{"action":"show_text","contents":"[-]"}},{"text":" ","clickEvent":{"action":"run_command","value":""}},{"text":"[+]","clickEvent":{"action":"run_command","value":"/scoreboard players add $firstTime __variable__ 1"},"hoverEvent":{"action":"show_text","contents":"[+]"}},{"text":"\n\u0421\u0432\u043e\u0431\u043e\u0434\u043d\u044b\u0439 \u043f\u0435\u0440\u0438\u043e\u0434: ","clickEvent":{"action":"run_command","value":""}},{"score":{"name":"$freeTime","objective":"__variable__"},"clickEvent":{"action":"run_command","value":""}},{"text":" \u043c\u0438","clickEvent":{"action":"run_command","value":""}},{"text":"\u043d "},{"text":"[-]","clickEvent":{"action":"run_command","value":"/scoreboard players remove $freeTime __variable__ 1"},"hoverEvent":{"action":"show_text","contents":"[-]"}},{"text":" "},{"text":"[+]","clickEvent":{"action":"run_command","value":"/scoreboard players add $freeTime __variable__ 1"},"hoverEvent":{"action":"show_text","contents":"[+]"}},{"text":"\n"},{"text":"\n","clickEvent":{"action":"run_command","value":""}},{"text":"\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438 \u043b\u0430\u0432\u044b:","color":"red","clickEvent":{"action":"run_command","value":""}},{"text":"\n\u041c\u0430\u043a\u0441\u0438\u043c\u0430\u043b\u044c\u043d\u0430\u044f \u0432\u044b\u0441\u043e\u0442\u0430 \u043b\u0430\u0432\u044b: ","clickEvent":{"action":"run_command","value":""}},{"score":{"name":"$lavaMaxPos","objective":"__variable__"},"clickEvent":{"action":"run_command","value":""}},{"text":" \u0432\u044b\u0441\u043e\u0442\u0430","clickEvent":{"action":"run_command","value":""}},{"text":" "},{"text":"[-]","clickEvent":{"action":"run_command","value":"/scoreboard players remove $lavaMaxPos __variable__ 1"},"hoverEvent":{"action":"show_text","contents":"[-]"}},{"text":" "},{"text":"[+]","clickEvent":{"action":"run_command","value":"/scoreboard players add $lavaMaxPos __variable__ 1"},"hoverEvent":{"action":"show_text","contents":"[+]"}},{"text":"\n\u0421\u043a\u043e\u0440\u043e\u0441\u0442\u044c \u043b\u0430\u0432\u044b: ","clickEvent":{"action":"run_command","value":""}},{"score":{"name":"$lavaSpeed","objective":"__variable__"},"clickEvent":{"action":"run_command","value":""}},{"text":" \u0431\u043b\u043e\u043a/c","clickEvent":{"action":"run_command","value":""}},{"text":" "},{"text":"[-]","clickEvent":{"action":"run_command","value":"/scoreboard players remove $lavaSpeed __variable__ 1"},"hoverEvent":{"action":"show_text","contents":"[-]"}},{"text":" "},{"text":"[+]","clickEvent":{"action":"run_command","value":"/scoreboard players add $lavaSpeed __variable__ 1"},"hoverEvent":{"action":"show_text","contents":"[+]"}},{"text":"\n"},{"text":"[ \u0421\u0431\u0440\u043e\u0441\u0438\u0442\u044c ]","color":"dark_red","clickEvent":{"action":"run_command","value":"/function lava_rising:resetallsetting"}},{"text":"\n","clickEvent":{"action":"run_command","value":""}},{"text":"\u25c8 \u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501 \u25c6 \u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501 \u25c8","color":"#CDCDCD","clickEvent":{"action":"run_command","value":""}}];
+    execute store result storage minecraft:temp lavaMaxPos int 1 run $lavaMaxPos.get();
+}
+
+function firstJoin() {
+    settings();
+    worldborder set 10 0;
+    execute as @s run tellraw @p [{"text":"\n\n\n\n\n\n\n\n <> Добро пожаловать на ","color":"green"},{"text":"LavaRising","color":"red"},{"text":" <>\n\n\n\n","color":"green"}];
+}
+
+function lavaDetect() {
+    execute as @a at @s run {
+        if (block ~ ~-2 ~ lava) {
+            title @s actionbar {"text":" ⚠  Лава под вами  ⚠","color":"red","bold":true};
+        }
+        else if(block ~ ~-3 ~ lava) {
+            title @s actionbar {"text":" ⚠  Лава очень близко  ⚠","color":"#FF8A24","bold":true};
+        }
+        else if(block ~ ~-4 ~ lava) {
+            title @s actionbar {"text":" ⚠  Лава близко  ⚠","color":"#FFD738","bold":true};
+        }
+        else if(block ~ ~-5 ~ lava) {
+            title @s actionbar {"text":" ⚠  Лава недалеко  ⚠","color":"#E3FF57","bold":true};
+        }
+
+    }
+}
+

@@ -1,0 +1,36 @@
+
+
+class shop {
+
+
+    function gui() {
+        execute unless entity @s[nbt={Inventory:[{Slot: 9b, id: "minecraft:villager_spawn_egg"}]}] run {
+
+            clear @s minecraft:villager_spawn_egg;
+            execute as @a run item replace entity @s inventory.0 with villager_spawn_egg;
+
+            if (!entity @e[type=minecraft:villager,tag=shop,distance=..5]) {
+
+                summon villager ~ ~ ~ {NoAI:1b,Tags:["shop"],Willing:1b,VillagerData:{level:99,profession:"minecraft:farmer",type:"minecraft:desert"},Offers:{Recipes:[{rewardExp:1b,maxUses:99999,xp:0,buy:{id:"minecraft:diamond",count:1},sell:{id:"minecraft:dirt",count:1}}]}};
+                particle minecraft:cloud ~ ~ ~ 0.3 1 0.3 0.1 50 normal;
+                playsound minecraft:block.note_block.bell ambient @a[distance=..5] ~ ~ ~ 1 2;
+                playsound minecraft:entity.villager.ambient ambient @a[distance=..5] ~ ~ ~ 1 2;
+
+            }
+            else {
+                playsound minecraft:entity.villager.no ambient @a[distance=..5] ~ ~ ~ 1 1;
+            }
+        }
+    }
+
+    function despawnVillager() {
+        if (!entity @a[distance=..5]) {
+            particle minecraft:cloud ~ ~ ~ 0.3 1 0.3 0.1 50 normal;
+            playsound minecraft:entity.villager.no ambient @a[distance=..5] ~ ~ ~ 1 1;
+            tp ~ ~-100 ~;
+            kill @s;
+        }
+    }
+
+
+}

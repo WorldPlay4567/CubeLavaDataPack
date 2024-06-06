@@ -1,0 +1,2 @@
+bossbar set time name ["",{"text":"\u0411\u0435\u0437\u043e\u043f\u0430\u0441\u043d\u044b\u0439 \u043f\u0435\u0440\u0438\u043e\u0434: ","color":"green"},{"score":{"name":"$timeMinute","objective":"__variable__"},"color":"green"},{"text":" \u043c\u0438\u043d.","color":"green"},{"score":{"name":"$timeSecond","objective":"__variable__"},"color":"green"},{"text":" \u0441\u0435\u043a. ","color":"green"}]
+execute if score $only1 __variable__ matches 0 run function lava_rising:__private__/if_else/2
