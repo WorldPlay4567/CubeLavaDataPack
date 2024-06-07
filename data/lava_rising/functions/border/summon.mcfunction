@@ -1,0 +1,1 @@
+summon minecraft:item_display ~ ~ ~ {Tags:["border"],item:{count:1,id:"minecraft:paper"}}

@@ -2,7 +2,7 @@ import "scr/gui_team";
 import "scr/timer";
 import "scr/play";
 import "scr/shop";
-
+import "scr/border";
 
 
 Player.firstJoin(firstJoin);
@@ -46,6 +46,7 @@ function __tick__() {
     lavaDetect();
     play.main();
     execute run bossbar set time players @a;
+    execute as @p at @s run border.math();
 }
 
 function update20tick() {

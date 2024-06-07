@@ -1,0 +1,30 @@
+Scoreboard.add(pos_x,dummy);
+Scoreboard.add(pos_y,dummy);
+Scoreboard.add(pos_z,dummy);
+
+
+class border {
+
+
+
+    function summon() {
+        summon minecraft:item_display ~ ~ ~ {Tags:["border"],item:{count:1,id:"minecraft:paper"}};
+
+
+    }
+
+    function math() {
+        execute as @e[tag=border] at @p positioned ~ ~1 ~ run tp @s ~ 100 ~ 90 0;
+        pos_x:@s = data get entity @p Pos[0] 100;
+        pos_y:@s = data get entity @p Pos[1] 100;
+        pos_z:@s = data get entity @p Pos[2] 100;
+
+        execute store result entity @e[tag=border,limit=1] transformation.translation[2] float 0.01 run pos_x:@s *= 1;
+        //execute store result entity @e[tag=border,limit=1] transformation.translation[1] float 0.01 run pos_y:@s *= -1;
+        execute store result entity @e[tag=border,limit=1] transformation.translation[0] float 0.01 run pos_z:@s *= -1;
+
+
+    }
+
+
+}

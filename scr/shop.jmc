@@ -8,6 +8,7 @@ class shop {
 
             clear @s minecraft:villager_spawn_egg;
             execute as @a run item replace entity @s inventory.0 with villager_spawn_egg;
+            kill @e[type=item,nbt={Item:{id:"minecraft:villager_spawn_egg"}}];
 
             if (!entity @e[type=minecraft:villager,tag=shop,distance=..5]) {
 
