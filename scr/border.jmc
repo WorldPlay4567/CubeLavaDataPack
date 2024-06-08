@@ -2,29 +2,85 @@ Scoreboard.add(pos_x,dummy);
 Scoreboard.add(pos_y,dummy);
 Scoreboard.add(pos_z,dummy);
 
+Scoreboard.add(id,dummy);
+
+border::size;
 
 class border {
 
 
 
     function summon() {
-        summon minecraft:item_display ~ ~ ~ {Tags:["border"],item:{count:1,id:"minecraft:paper"}};
+        id:id ++;
+        id:@s = id:id;
 
+        execute summon item_display run {
+            data merge entity @s {Tags:["border"],item:{count:1,id:"minecraft:paper"}};
+            data merge entity @s {view_range:2.0f,start_interpolation:-1,transformation:{left_rotation:[0.0f,0.0f,0.0f,1.0f],right_rotation:[0.0f,0.0f,0.0f,1.0f],scale:[100.0f,700.0f,100.0f]}};
+            id:@s = id:id;
+        }
 
     }
 
     function math() {
-        execute as @e[tag=border] at @p positioned ~ ~1 ~ run tp @s ~ 100 ~ 90 0;
-        pos_x:@s = data get entity @p Pos[0] 100;
-        pos_y:@s = data get entity @p Pos[1] 100;
-        pos_z:@s = data get entity @p Pos[2] 100;
 
-        execute store result entity @e[tag=border,limit=1] transformation.translation[2] float 0.01 run pos_x:@s *= 1;
-        //execute store result entity @e[tag=border,limit=1] transformation.translation[1] float 0.01 run pos_y:@s *= -1;
-        execute store result entity @e[tag=border,limit=1] transformation.translation[0] float 0.01 run pos_z:@s *= -1;
+
+
+        this.main();
+    }
+
+    
+    function main() {
+            execute as @s at @s run {
+                tag @s add leader;
+                execute as @e[tag=border] if score @s id = @a[tag=leader,limit=1] id run { 
+
+                tp @s ~ ~ ~ 90 0;
+
+                pos_x:@a[tag=leader,limit=1] = data get entity @a[tag=leader,limit=1] Pos[0] 100;
+                pos_y:@a[tag=leader,limit=1] = data get entity @a[tag=leader,limit=1] Pos[1] 100;
+                pos_z:@a[tag=leader,limit=1] = data get entity @a[tag=leader,limit=1] Pos[2] 100;
+
+                execute store result entity @s transformation.translation[2] float 0.01 run pos_x:@a[tag=leader,limit=1] *= 1;
+
+                pos_y:@a[tag=leader,limit=1] *= -1;
+                execute store result entity @s transformation.translation[1] float 0.01 run pos_y:@a[tag=leader,limit=1] += 15000 ;
+
+
+                execute store result entity @s transformation.translation[0] float 0.01 run pos_z:@a[tag=leader,limit=1] *= -1;
+
+                }
+                tag @s remove leader;
+        } 
+
+
+        this.damageZone();
+    }
+
+    function damageZone() {
+        $size = 100;
+        border::size = $size.get();
+        $size_two  = $size /= 2;
+        border::size_two = $size_two.get();
+
+        this.damageZoneMacros() with storage lava_rising:border;
+        function damageZoneMacros() {
+            $execute positioned 0 100 0 positioned ~-$(size_two) -64 ~-$(size_two) as @a run{
+                if (!entity @s[dx=$(size),dy=250,dz=$(size)]) {
+                    effect give @s minecraft:darkness 2 255 true;
+                    tag @s add in_zone;
+                }
+            };
+
+            $execute positioned 0 100 0 positioned ~-$(size_two) -64 ~-$(size_two) as @a run{
+                if (entity @s[dx=$(size),dy=250,dz=$(size)]) {
+                    tag @s remove in_zone;
+                }
+            };
+            
+        }
 
 
     }
-
-
+    
 }

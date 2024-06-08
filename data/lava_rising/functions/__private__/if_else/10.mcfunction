@@ -1,2 +1,2 @@
 function lava_rising:settings
-scoreboard players operation $lavaMaxPosOld __variable__ = $lavaMaxPos __variable__
+scoreboard players operation $freeTimeOld __variable__ = $freeTime __variable__

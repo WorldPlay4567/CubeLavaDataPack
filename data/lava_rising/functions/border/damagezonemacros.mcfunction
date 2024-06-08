@@ -1,0 +1,2 @@
+$execute positioned 0 100 0 positioned ~-$(size_two) -64 ~-$(size_two) as @a unless entity @s[dx=$(size),dy=250,dz=$(size)] run function lava_rising:__private__/if_else/8
+$execute positioned 0 100 0 positioned ~-$(size_two) -64 ~-$(size_two) as @a if entity @s[dx=$(size),dy=250,dz=$(size)] run tag @s remove in_zone

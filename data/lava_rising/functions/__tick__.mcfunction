@@ -10,4 +10,4 @@ function lava_rising:play/main
 function lava_rising:lavadetect
 function lava_rising:play/main
 bossbar set time players @a
-execute as @p at @s run function lava_rising:border/math
+execute as @a at @s run function lava_rising:border/math

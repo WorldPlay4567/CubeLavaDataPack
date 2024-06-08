@@ -1,2 +1,2 @@
-execute if block ~ ~-3 ~ lava run function lava_rising:__private__/if_else/13
-execute if score __if_else__ __variable__ matches 0 run function lava_rising:__private__/if_else/15
+execute if block ~ ~-4 ~ lava run function lava_rising:__private__/if_else/15
+execute if score __if_else__ __variable__ matches 0 if block ~ ~-5 ~ lava run title @s actionbar {"text":" \u26a0  \u041b\u0430\u0432\u0430 \u043d\u0435\u0434\u0430\u043b\u0435\u043a\u043e  \u26a0","color":"#E3FF57","bold":true}

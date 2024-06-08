@@ -1,0 +1,1 @@
+function lava_rising:update40tick
