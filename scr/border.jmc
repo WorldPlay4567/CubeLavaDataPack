@@ -53,14 +53,16 @@ class border {
                 tag @s remove leader;
         } 
 
-
+        this.sizeBorder();
         this.damageZone();
     }
 
     function damageZone() {
-        $size = 100;
+
         border::size = $size.get();
-        $size_two  = $size /= 2;
+
+        $size_temp = $size;
+        $size_two  = $size_temp /= 2;
         border::size_two = $size_two.get();
 
         this.damageZoneMacros() with storage lava_rising:border;
@@ -83,4 +85,11 @@ class border {
 
     }
     
+
+    function sizeBorder() {
+
+            execute as @e[tag=border] store result entity @s transformation.scale[0] float 1 run $size.get(); 
+            execute as @e[tag=border] store result entity @s transformation.scale[2] float 1 run $size.get(); 
+
+    }
 }
