@@ -1,2 +1,2 @@
-function lava_rising:settings
-scoreboard players operation $firstTimeOld __variable__ = $firstTime __variable__
+scoreboard players remove $time_time border 1
+function lava_rising:border/editsize

@@ -1,1 +1,1 @@
-function lava_rising:update40tick
+function lava_rising:update20tick

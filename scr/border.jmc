@@ -3,7 +3,7 @@ Scoreboard.add(pos_y,dummy);
 Scoreboard.add(pos_z,dummy);
 
 Scoreboard.add(id,dummy);
-
+Scoreboard.add(border,dummy);
 border::size;
 
 class border {
@@ -85,11 +85,44 @@ class border {
 
     }
     
-
     function sizeBorder() {
 
             execute as @e[tag=border] store result entity @s transformation.scale[0] float 1 run $size.get(); 
             execute as @e[tag=border] store result entity @s transformation.scale[2] float 1 run $size.get(); 
 
+    }
+
+    function setSize() {
+
+        $execute run scoreboard players set $size_time border $(size);
+        $execute run scoreboard players set $time_time border $(time);
+
+        border:$size_time_temp = border:$size_time; 
+        border:$size_time_temp -= __variable__:$size;
+
+        border:$time_time *= 60;
+        border:$time_time *= 20;
+
+        border:$time_time_temp = border:$time_time;
+
+        border:$size_time_temp = border:$time_time_temp /= border:$size_time_temp;
+
+        this.editSize();
+    }
+
+    function editSize() {
+        schedule 1t replace {
+            if(border:$time_time >= 0 ) {
+                border:$time_time -= 1;
+                this.editSize();
+            }
+
+        }
+
+        __variable__:$size += border:$size_time_temp;
+    }
+
+    function test() {
+       execute run function lava_rising:border/setsize {"size":"100","time":"2"};
     }
 }

@@ -1,1 +1,1 @@
-execute as @a at @s run function lava_rising:__private__/anonymous/8
+execute as @a at @s run function lava_rising:__private__/anonymous/9

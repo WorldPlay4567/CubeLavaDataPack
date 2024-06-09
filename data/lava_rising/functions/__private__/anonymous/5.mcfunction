@@ -1,1 +1,1 @@
-function lava_rising:update20tick
+execute if score $time_time border matches 0.. run function lava_rising:__private__/if_else/9

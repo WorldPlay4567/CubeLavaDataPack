@@ -24,6 +24,7 @@ scoreboard objectives add pos_x dummy
 scoreboard objectives add pos_y dummy
 scoreboard objectives add pos_z dummy
 scoreboard objectives add id dummy
+scoreboard objectives add border dummy
 data get storage lava_rising:border size
 team add red "Red"
 team modify red friendlyFire false
