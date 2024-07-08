@@ -1,1 +1,1 @@
-function lava_rising:border/setsize {"size":"100","time":"2"}
+function lava_rising:border/setsize {"size":"1000","time":"20"}

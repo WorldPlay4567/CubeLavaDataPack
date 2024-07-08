@@ -1,1 +1,1 @@
-execute if score $time_time border matches 0.. run function lava_rising:__private__/if_else/9
+execute if score time border matches 0..240000 run function lava_rising:__private__/if_else/9
